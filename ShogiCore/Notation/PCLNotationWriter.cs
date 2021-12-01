@@ -36,6 +36,7 @@ namespace ShogiCore.Notation {
                 board = board == null ? BoardData.CreateEquality() : board.Clone();
                 foreach (var move in notation.Moves) {
                     str.Append(ToString(board, move.MoveData)).Append('\n');
+                    str.Append("T").Append(move.Time.ToString()).Append('\n');
                     board.Do(move.MoveData);
                 }
             }
