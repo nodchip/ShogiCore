@@ -414,7 +414,13 @@ namespace ShogiCore.Notation {
                     throw new NotationException("KIF形式棋譜の読み込みに失敗: 行=" + line);
                 }
 
-                moves.Add(new MoveDataEx(move));
+                var moveDataEx = new MoveDataEx(move);
+
+                var match = Regex.Match(line, @"\( (\d+):(\d+)/");
+                Debug.Assert(match.Success);
+                moveDataEx.Time = int.Parse(match.Groups[1].Value) * 60 + int.Parse(match.Groups[2].Value);
+
+                moves.Add(moveDataEx);
                 tempBoard.Do(move);
             } catch (ArgumentOutOfRangeException e) {
                 throw new NotationException("KIF形式棋譜の読み込みに失敗: 行=" + line, e);
